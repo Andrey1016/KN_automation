@@ -6,6 +6,8 @@ from pages.HEADER.notifications.notifications_page import ClearNotifications
 from pages.utility2_page import BoardsWithActivityAndEngagementReports, Cards, EngCards, ImpactReportCards, \
     BoardWithImpactAndAttributeReports, \
     AttributeReportCards
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 @pytest.fixture(autouse=True)

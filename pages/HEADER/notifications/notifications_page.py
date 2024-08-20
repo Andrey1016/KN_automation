@@ -12,17 +12,19 @@ class ClearNotifications(BasePage):
     notifications = Notifications
 
     def clear_notifications(self):
+
         try:
             self.element_is_visible(self.header_locators.NOTIFICATIONS).click()
             notification = self.element_is_present(self.notifications.ALL_CLEARED)
             is_displayed = notification.is_displayed()
             if is_displayed:
-                print("All notifications are already cleared")
-                return True
+                print("All notifications already cleared")
+                # self.browser.save_screenshot('all_notifications_not_cleared_after_attempt.png')
+            return True
         except NoSuchElementException:
             print("No 'all cleared' notification found, proceeding to clear notifications")
         except TimeoutException:
-            print("Timeout waiting for the 'all cleared' notification")
+            print("Waiting for the 'all cleared' notification")
 
             self.element_is_visible(self.notifications.CLEAR_BUTTON).click()
             self.element_is_visible(self.notifications.CHECKBOX_CLEAR_FLAGS).click()
@@ -36,7 +38,6 @@ class ClearNotifications(BasePage):
                 return True
         except NoSuchElementException:
             self.browser.save_screenshot('all_notifications_not_cleared_after_attempt.png')
-        # except TimeoutException:
-        #     print("Timeout waiting for an element during clearing process")
-        # return False
-
+        except TimeoutException:
+            print("Timeout waiting for an element during clearing process")
+        return False

@@ -1,6 +1,7 @@
 import time
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, TimeoutException, ElementClickInterceptedException
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 from generator.generator import correct_credentials
 from locators.LOGIN_LOCATORS.login_page_locators import LoginPageLocators
@@ -28,38 +29,27 @@ class LoginPage(BasePage):
         self.element_is_visible(self.locators.USERNAME).send_keys(login_name)
         self.element_is_visible(self.locators.PASSWORD).send_keys(password)
         self.element_is_visible(self.locators.SIGN_IN_BTN).click()
-        # self.continue_login_notice()
-        # self.delete_pop_up_message()
+        time.sleep(1.5)
+        self.continue_login_notice()
+        self.delete_pop_up_message()
 
-        # assert self.url_is_match_to_first_login()
+    def handle_login_notice_button(self, button_locator, button_name):
+        try:
+            button = self.element_is_visible(button_locator)
+            if button:
+                button.click()
+                print(f"{button_name} clicked.")
+            else:
+                print(f"{button_name} not found. Proceeding without clicking.")
+        except NoSuchElementException:
+            print(f"{button_name} not present. Proceeding with the next steps.")
+        except TimeoutException:
+            print(f"{button_name} found but not clickable. Proceeding with the next steps.")
 
-    # ----------- You were in the process of submitting an Item.---------------
-    # def delete_pop_up_message(self):
-    #     try:
-    #         self.element_is_clickable(DELETE_MESSAGE_CLICK).click()
-    #     except NoSuchElementException:
-    #         pass
+    def delete_pop_up_message(self):
+        self.handle_login_notice_button(self.locators.DELETE_MESSAGE_CLICK, "Login notice delete button")
 
-    def delete_pop_up_message(self, max_attempts=3, retry_delay=1):
-        attempts = 0
-        while attempts < max_attempts:
-            try:
-                delete_button = self.element_is_clickable(DELETE_MESSAGE_CLICK)
-                if delete_button.is_displayed():
-                    delete_button.click()
-            except NoSuchElementException:
-                pass
-            time.sleep(retry_delay)
-            attempts += 1
+    def continue_login_notice(self):
+        self.handle_login_notice_button(self.locators.CLICK_CONTINUE_LOGIN_NOTICE, "Continue login notice button")
 
-    def continue_login_notice(self, max_attempts=3, retry_delay=1):
-        attempts = 0
-        while attempts < max_attempts:
-            try:
-                continue_button = self.element_is_clickable(CLICK_CONTINUE_LOGIN_NOTICE)
-                if continue_button.is_displayed():
-                    continue_button.click()
-            except NoSuchElementException:
-                pass
-            time.sleep(retry_delay)
-            attempts += 1
+# Add your next steps here

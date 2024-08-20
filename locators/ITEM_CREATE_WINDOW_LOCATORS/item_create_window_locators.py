@@ -41,6 +41,10 @@ class ItemCreateWindow:
     # =============TEAM======================
 
     RESPONSIBLE = (By.XPATH, "//label[text()='Required']")
+    # -------------------------
+    SPONSOR = (By.XPATH, "//div[label//span[text()='Sponsor(s):']]//label[text()='None']")
+    # -------------------------
+    API_AUTOTEST_USER_SPONSOR = (By.XPATH, "//div[contains(@data-qtip, 'rrippey7@gmail.com')]")
 
     API_AUTOTEST_USER_RESPONSIBLE = (By.XPATH, "//div[contains(@data-qtip, 'AutotestUser@gmaik.con')]")
 
@@ -52,6 +56,8 @@ class ItemCreateWindow:
 
     CREATE_ITEM_BTN = (By.XPATH, "//span[@class='x-btn-inner x-btn-inner-default-large' and text()='Create']")
 
+    VIEW_ITEM_CLICK = (By.XPATH, "//span[@class='x-btn-inner x-btn-inner-default-large' and text()='View Item']")
+
     SUCCESS_WINDOW_CLOSE = (
         By.XPATH,
         "//a[@class='x-btn app-item-window-close-button x-unselectable x-box-item x-toolbar-item x-btn-app-header-button-s-small']")
@@ -59,4 +65,5 @@ class ItemCreateWindow:
     SUCCESS_WINDOW_ITEM_LINK = (
         By.XPATH, "//a[@class='open-modal app-toast-link']")
 
+    CLOSE_ITEM = (By.XPATH, "//a[@class='x-btn app-item-window-close-button x-unselectable x-box-item x-btn-app-header-button-s-small x-btn-after-title']")
 

@@ -109,6 +109,26 @@ class CreateAllItems(BasePage):
         except NoSuchElementException:
             pass
 
+    def fill_sponsor(self):
+        try:
+            while True:
+                dropdowns = self.elements_are_present2(self.locators.SPONSOR)
+                if not dropdowns:
+                    break
+
+                dropdown = dropdowns.pop(0)
+                dropdown.click()
+                time.sleep(1.5)
+
+                first_option = self.element_is_clickable(self.locators.API_AUTOTEST_USER_SPONSOR)
+                if first_option:
+                    first_option.click()
+                    time.sleep(1.5)
+        except NoSuchElementException:
+            pass
+        except Exception as e:
+            print(f" {e} Created")
+
     def fill_responsible(self):
         try:
             while True:
@@ -128,6 +148,8 @@ class CreateAllItems(BasePage):
             pass
         except Exception as e:
             print(f" {e} Created")
+
+    # ============================================Confirm text==================================
 
     #     =======================================All Items in NEW status=======================================
 
@@ -152,11 +174,23 @@ class CreateAllItems(BasePage):
 
             self.fill_date_filed()
 
+            # self.fill_sponsor()
+
             self.element_is_visible(self.locators.CREATE_ITEM_BTN).click()
 
-            self.try_close_success_window()
+            self.element_is_visible(self.locators.VIEW_ITEM_CLICK).click()
 
+            time.sleep(1)
+
+            self.element_is_visible(self.locators.CLOSE_ITEM).click()
+
+
+
+            # self.try_close_success_window()
+            #
             self.element_is_visible(self.header_locators.HEADER_CREATE_BTN).click()
+
+    #    ============================================Confirm text on the created item=============================
 
     #     =======================================All Items in ACTIVE status=======================================
 
@@ -484,7 +518,6 @@ class AttributeReportCards(BasePage):
     def add_impact_by_attribute_report_card(self):
         self.add_impact_report_card_to_board(self.cards_locators.IMPACT_BY_ATTRIBUTE,
                                              "Impact by Attribute Report card")
-
 
 # class BoardsAllCards(BasePage):
 #     header_locators = HeaderLocators()
